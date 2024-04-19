@@ -18,6 +18,7 @@ const operate = function(operator, num1, num2) {
   } 
 }
 
+
 let digit_keys = document.querySelectorAll(".digit");
 let display = document.querySelector("#display");
 let last_op_pressed = null;
@@ -43,7 +44,10 @@ digit_keys.forEach(key => {
         display.textContent = digit;
       }
       else {
-      display.textContent += digit;
+        // Devo aggiungere una cifra a sx (ma solo se c'è spazio)
+        if(display.textContent.length < 10) {
+          display.textContent += digit;
+        }
       }
     }
   });
@@ -70,7 +74,10 @@ operator_keys.forEach(key => {
       // Cosa fare se ho schiacciato uguale
       if (num1 != null && operator != null){
         num2 = parseFloat(display.textContent)
-        display.textContent = operate(operator, num1, num2);
+        let result = operate(operator, num1, num2);
+        if(String(result).length >= 10)
+          result = result.toExponential(5);
+        display.textContent = result;
         num1 = parseFloat(display.textContent);
         num2 = null;
         operator = null;
@@ -97,6 +104,8 @@ pm_key.addEventListener("click", () => {
 let perc_key = document.querySelector(".modifier.perc");
 perc_key.addEventListener("click", () => {
   display.textContent = parseFloat(display.textContent) / 100;
+  if(display.textContent.length >= 10)
+    display.textContent = parseFloat(display.textContent).toExponential(5);
 })
 
 
