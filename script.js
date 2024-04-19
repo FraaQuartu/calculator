@@ -39,3 +39,30 @@ digit_keys.forEach(key => {
     }
   });
 });
+
+let operator_keys = document.querySelectorAll(".operator");
+let operator = null, num1 = null, num2 = null;
+
+
+operator_keys.forEach(key => {
+  let op = key.textContent;
+
+  if (op != '='){
+    key.addEventListener("click", (e) =>{
+      op = e.target.textContent;  
+      num1 = parseFloat(display.textContent);
+      operator = op;
+      display.textContent = '0';
+    })
+  }
+  else {
+    key.addEventListener("click", () => {
+      // Cosa fare se ho schiacciato uguale
+      if (num1 != null && operator != null){
+        num2 = parseFloat(display.textContent)
+        display.textContent = operate(operator, num1, num2);
+      }
+    });
+  }
+  
+});
